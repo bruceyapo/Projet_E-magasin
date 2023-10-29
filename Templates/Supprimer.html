@@ -1,0 +1,29 @@
+{% extends "Base.html" %}
+{% block body %}
+    <section class="ajouter">
+        <div id="container">
+            <div class="container-ajouter">
+                <div><h3>Suppression de magasin</h3></div>
+                <form action="/Succes_supp/">
+                    
+                
+                        <p class="alert">
+                            Vous êtes sur le point de supprimer le magasin n°2. Êtes-vous
+                            sûr de vouloir continuer ?
+                        </p>
+                
+                    <div class="mb-3 row justify-content-center align-items-center" style="width: 40%;">
+                        <div class="col-sm-10 column justify-content-center align-items-center " style="width: 100%;">
+                            <button type="reset" class="btn btn-danger button"><a href="/Magasin/">Retour</a></button>
+                            <a href=""> <button type="submit" class="btn btn-success"> Valider</button></a>
+                        </div>
+        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+            
+        
+    
