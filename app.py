@@ -2,10 +2,10 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+## Magasin
 @app.route("/")
 def Connexion():
     return render_template("connexion.html")
-
 
 @app.route("/Accueil/")
 def index():
@@ -38,6 +38,9 @@ def Supprimer():
 @app.route("/Succes_supp/")
 def Succes_supp():
     return render_template("Succes_supp.html")
+
+
+##Produits
 
 if __name__ == "__main__":
     app.run()
