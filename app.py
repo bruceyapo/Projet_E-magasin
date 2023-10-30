@@ -2,6 +2,10 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+
+
+
+
 ## Magasin
 @app.route("/")
 def Connexion():
@@ -41,6 +45,10 @@ def Succes_supp():
 
 
 ##Produits
+
+@app.route("/List_produit/")
+def Produit():
+    return render_template("Produit.html")
 
 if __name__ == "__main__":
     app.run()
