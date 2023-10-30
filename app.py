@@ -50,5 +50,29 @@ def Succes_supp():
 def Produit():
     return render_template("Produit.html")
 
+@app.route("/Ajout_produit/")
+def Ajout_produit():
+    return render_template("Ajout_produit.html")
+
+@app.route("/Succes_ajout_produit/")
+def Succes_ajout_produit():
+    return render_template("Succes_ajout_produit.html")
+
+@app.route("/Modifier_produit/")
+def Modifier_produit():
+    return render_template("Modifier_produit.html")
+
+@app.route("/Succes_modif_prod/")
+def Succes_modif_prod():
+    return render_template("Succes_modif_prod.html")
+
+@app.route("/Supprimer_produit/")
+def Supprimer_produit():
+    return render_template("Supprimer_produit.html")
+
+@app.route("/Succes_supp_prod/")
+def Succes_supp_prod():
+    return render_template("Succes_supp_prod.html")
+
 if __name__ == "__main__":
     app.run()
