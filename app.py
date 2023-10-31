@@ -1,43 +1,47 @@
-from flask import Flask, render_template
+#importation des librairies
+from flask import Flask, render_template,request,redirect, url_for
+import pyodbc as odbc
 
+#definir l'app
 app = Flask(__name__)
 
-@app.route("/")
-def Connexion():
-    return render_template("connexion.html")
+# Connexion à la base de données SQL SERVER
+conn_str = "Driver={ODBC Driver 17 for SQL Server};Server=Geek_Machine\\SQLEXPRESS;Database=e_magasin;Trusted_connection=yes"
+conn = odbc.connect(conn_str)
 
+app.config['SQL_CONN'] = conn
 
-@app.route("/Accueil/")
-def index():
-    return render_template("Base.html")
+#création des routes de l'app
+
 
 @app.route("/Magasin/")
 def Magasin():
-    return render_template("Magasin.html")
+    cursor = conn.cursor()
+    cursor.execute( "SELECT Id, Nom_magasin, Addresse_magasin,Telephone, E_mail FROM Magasin ")
+    data = cursor.fetchall()
+    # conn.close()
+    return render_template("Magasin.html", data=data)
 
-@app.route("/Ajouter/")
+@app.route('/Ajouter/')
 def Ajouter():
     return render_template("Ajouter.html")
 
-@app.route("/Succes/")
-def Succes():
-    return render_template("Succès.html")
+@app.route('/submit_add/', methods=['POST'])
+def submit_add():
+    Nom = request.form['Nom_magasin']
+    Addresse_magasin = request.form['Addresse_magasin']
+    Telephone = request.form['Telephone']
+    email = request.form['mail']
 
-@app.route("/Modifier/")
-def Modifier():
-    return render_template("Modifier.html")
+    cursor = conn.cursor()
+    cursor.execute(
+            "INSERT INTO Magasin (Nom_magasin, Addresse_magasin, Telephone, E_mail) VALUES (?, ?, ?, ?)",
+            (Nom, Addresse_magasin, Telephone, email)
+        )
+    conn.commit()
+    # cursor.close()
+    return render_template("Magasin.html")
 
-@app.route("/Succes_modif/")
-def Succes_modif():
-    return render_template("Succes_modif.html")
-
-@app.route("/Supprimer/")
-def Supprimer():
-    return render_template("Supprimer.html")
-
-@app.route("/Succes_supp/")
-def Succes_supp():
-    return render_template("Succes_supp.html")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
