@@ -4,30 +4,30 @@
         <div id="container">
             <div class="container-ajouter">
                 <div><h3>Modifier un Produit</h3></div>
-                <form action="/Succes_modif_prod/">
+                <form action="/Succes_modif_prod/" method="post">
                     
                     <div class="mb-3 row">
                         <label for="Name" class="col-sm-2 col-form-label">Nom :</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="Nom_produit" value="Produit 5" id="Name">
+                            <input type="text" class="form-control" name="Nom_produit" value="{{listModif.Nom_produit}}" id="Name">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="Categorie" class="col-sm-2 col-form-label">Catégorie :</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="Categorie" value="Catégorie 5" id="Categorie">
+                            <input type="text" class="form-control" name="Categorie" value="{{listModif.Categorie}}" id="Categorie">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="PrixUnitaire" class="col-sm-2 col-form-label">Prix :</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="PrixUnitaire" style="color: #8FAF47;" value="Prix 5" id="PrixUnitaire">
+                            <input type="text" class="form-control" name="PrixUnitaire" style="color: #8FAF47;" value="{{listModif.PrixUnitaire}}"  id="PrixUnitaire">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="Descrpition" class="col-sm-2 col-form-label">Descrpition :</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="Descrpition" value="Descrpition 5" id="Descrpition">
+                            <input type="text" class="form-control" name="Description" value="{{listModif.Description}}" id="Descrpition">
                         </div>
                     </div>
                     <div class="mb-3 row justify-content-center " style="width: 90%;">

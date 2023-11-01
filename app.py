@@ -56,8 +56,11 @@ def Succes_supp():
 @app.route("/List_produit/")
 def Produit():
     # Exécution de la requête de sélection
+    cursor = conn.cursor()
+    cursor.execute( "SELECT Id, Nom_produit, Categorie, PrixUnitaire, Description FROM Produit ")
+    list = cursor.fetchall()
     
-    return render_template("Produit.html")
+    return render_template("Produit.html", list=list)
 
 @app.route("/Ajout_produit/", methods=['GET'])
 def Ajout_produit():
@@ -105,19 +108,44 @@ def Succes_ajout_produit():
     cursor.execute(
         f"INSERT INTO Produit (Nom_produit, Categorie, PrixUnitaire,Description) VALUES ('{data['Nom_produit']}', '{data['Categorie']}', '{data['PrixUnitaire']}', '{data['Description']}')"
     )
+    cursor = conn.cursor()
+    cursor.execute( "SELECT Id, Nom_produit, Categorie, PrixUnitaire, Description FROM Produit ")
+    listaj = cursor.fetchall()
     # Commit des modifications
     conn.commit()
     # conn.close()
-    return render_template("Succes_ajout_produit.html", data=data)
+    return render_template("Succes_ajout_produit.html", data=data ,listaj=listaj)
 
-
+#Route pour traiter le formulaire de Modification
 @app.route("/Modifier_produit/")
 def Modifier_produit():
     return render_template("Modifier_produit.html")
 
-@app.route("/Succes_modif_prod/")
+@app.route("/Succes_modif_prod/", methods=["POST"])
 def Succes_modif_prod():
-    return render_template("Succes_modif_prod.html")
+    # Récupération des données du formulaire
+    Nom_produit = request.form["Nom_produit"]
+    Categorie = request.form["Categorie"]
+    PrixUnitaire = request.form["PrixUnitaire"]
+    Description = request.form["Description"]
+    # Traitement des données
+    data = {
+        "Nom_produit": Nom_produit,
+        "Categorie": Categorie,
+        "PrixUnitaire": PrixUnitaire,
+        "Description": Description
+    }
+    # Exécution de la requête de mise à jour
+    cursor = conn.cursor()
+    cursor.execute(
+        f"UPDATE Produit SET Nom_produit = '{data['Nom_produit']}', Categorie = '{data['Categorie']}', PrixUnitaire = '{data['PrixUnitaire']}', Description = '{data['Description']}' WHERE Id = {data['Id']}"
+    )
+    # Commit des modifications
+    #cursor.execute( "SELECT Id, Nom_produit, Categorie, PrixUnitaire, Description FROM Produit ")
+    #listModif = cursor.fetchall()
+    conn.commit()
+    return render_template("Succes_modif_prod.html", data=data)
+
 
 @app.route("/Supprimer_produit/")
 def Supprimer_produit():
@@ -128,4 +156,4 @@ def Succes_supp_prod():
     return render_template("Succes_supp_prod.html")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

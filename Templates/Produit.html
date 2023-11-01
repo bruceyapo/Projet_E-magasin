@@ -18,13 +18,13 @@
                     </thead>
                     
                 <tbody>
-                    {% for Data in Data %}
+                    {% for list in list %}
                         <tr>
-                            <td>{{Data.Id}}</td>
-                            <td>{{Data.Nom_produit}}</td>
-                            <td>{{Data.Categorie}}</td>
-                            <td>{{Data.PrixUnitaire}}</td>
-                            <td>{{Data.Description}}</td>
+                            <td>{{list.Id}}</td>
+                            <td>{{list.Nom_produit}}</td>
+                            <td>{{list.Categorie}}</td>
+                            <td>{{list.PrixUnitaire}}</td>
+                            <td>{{list.Description}}</td>
                             <td class="editer">
                                 <div>
                                     <a href="/Modifier_produit/">Modifier</a>
