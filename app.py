@@ -119,18 +119,16 @@ def Succes_ajout_produit():
     return render_template("Succes_ajout_produit.html", list=list ,listaj=listaj)
 
 #Route pour traiter le formulaire de Modification
-@app.route("/Modifier_produit/")
-def Modifier_produit():
-    #cursor = conn.cursor()
-    #cursor.execute( "SELECT Id, Nom_produit, Categorie, PrixUnitaire, Description FROM Produit ")
-    #list = cursor.fetchall()
-    
+@app.route("/Modifier_produit/<int:_id>")
+def Modifier_produit(_id):
+    cursor = conn.cursor()
+    cursor.execute( "SELECT Id, Nom_produit, Categorie, PrixUnitaire, Description FROM Produit ")
+    list = cursor.fetchall()
     # Commit des modifications
-    #conn.commit()
-    #conn.close()
-    return render_template("Modifier_produit.html")
+    conn.commit()
+    return render_template("Modifier_produit.html", list=list )
 
-@app.route("/Succes_modif_prod/<int:Id>", methods=["POST"])
+@app.route("/Succes_modif_prod/", methods=["POST"])
 def Succes_modif_prod():
     cursor = conn.cursor()
     Nom_produit = request.form["Nom_produit"]
