@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,  redirect, url_for
 import pyodbc  as odbccon
 conn = odbccon.connect("Driver={ODBC Driver 17 for SQL Server};"
                       "Server=DESKTOP-QQGKONI\SQLEXPRESS;"
@@ -59,7 +59,9 @@ def Produit():
     cursor = conn.cursor()
     cursor.execute( "SELECT Id, Nom_produit, Categorie, PrixUnitaire, Description FROM Produit ")
     list = cursor.fetchall()
-    
+    # Commit des modifications
+    conn.commit()
+    # conn.close()
     return render_template("Produit.html", list=list)
 
 @app.route("/Ajout_produit/", methods=['GET'])
@@ -97,7 +99,7 @@ def Succes_ajout_produit():
     Description = request.form["Description"]
 
     # Traitement des données
-    data = {
+    list = {
         "Nom_produit": Nom_produit,
         "Categorie": Categorie,
         "PrixUnitaire": PrixUnitaire,
@@ -106,7 +108,7 @@ def Succes_ajout_produit():
     # Exécution de la requête d'insertion
     cursor = conn.cursor()
     cursor.execute(
-        f"INSERT INTO Produit (Nom_produit, Categorie, PrixUnitaire,Description) VALUES ('{data['Nom_produit']}', '{data['Categorie']}', '{data['PrixUnitaire']}', '{data['Description']}')"
+        f"INSERT INTO Produit (Nom_produit, Categorie, PrixUnitaire,Description) VALUES ('{list['Nom_produit']}', '{list['Categorie']}', '{list['PrixUnitaire']}', '{list['Description']}')"
     )
     cursor = conn.cursor()
     cursor.execute( "SELECT Id, Nom_produit, Categorie, PrixUnitaire, Description FROM Produit ")
@@ -114,37 +116,39 @@ def Succes_ajout_produit():
     # Commit des modifications
     conn.commit()
     # conn.close()
-    return render_template("Succes_ajout_produit.html", data=data ,listaj=listaj)
+    return render_template("Succes_ajout_produit.html", list=list ,listaj=listaj)
 
 #Route pour traiter le formulaire de Modification
 @app.route("/Modifier_produit/")
 def Modifier_produit():
+    #cursor = conn.cursor()
+    #cursor.execute( "SELECT Id, Nom_produit, Categorie, PrixUnitaire, Description FROM Produit ")
+    #list = cursor.fetchall()
+    
+    # Commit des modifications
+    #conn.commit()
+    #conn.close()
     return render_template("Modifier_produit.html")
 
-@app.route("/Succes_modif_prod/", methods=["POST"])
+@app.route("/Succes_modif_prod/<int:Id>", methods=["POST"])
 def Succes_modif_prod():
-    # Récupération des données du formulaire
+    cursor = conn.cursor()
     Nom_produit = request.form["Nom_produit"]
     Categorie = request.form["Categorie"]
     PrixUnitaire = request.form["PrixUnitaire"]
     Description = request.form["Description"]
+
     # Traitement des données
-    data = {
+    list = {
         "Nom_produit": Nom_produit,
         "Categorie": Categorie,
         "PrixUnitaire": PrixUnitaire,
         "Description": Description
     }
-    # Exécution de la requête de mise à jour
-    cursor = conn.cursor()
-    cursor.execute(
-        f"UPDATE Produit SET Nom_produit = '{data['Nom_produit']}', Categorie = '{data['Categorie']}', PrixUnitaire = '{data['PrixUnitaire']}', Description = '{data['Description']}' WHERE Id = {data['Id']}"
-    )
-    # Commit des modifications
-    #cursor.execute( "SELECT Id, Nom_produit, Categorie, PrixUnitaire, Description FROM Produit ")
-    #listModif = cursor.fetchall()
+    cursor.execute(f"UPDATE Produit SET Nom_produit = '{list.Nom_produit}', Categorie = '{list.Categorie}', PrixUnitaire = '{list.PrixUnitaire}', Description = '{list.Description}' ")
     conn.commit()
-    return render_template("Succes_modif_prod.html", data=data)
+    cursor.close()
+    return redirect("url_for('Produit')")
 
 
 @app.route("/Supprimer_produit/")
