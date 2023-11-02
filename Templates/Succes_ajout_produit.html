@@ -4,7 +4,9 @@
         <div id="container">
             <div class="container-magasin">
                 <div class="ajoute"><a href="/Ajout_produit/"><button type="button" class="btn btn-success btn-lg">Ajouter</button></a></div>
-                <div class="titre"><p>Votre Produit N° {{listaj.Id}} a été enregistré avec succès</p></div>
+                
+                <div class="titre"><p>Votre Produit  a été enregistré avec succès</p></div>
+            
                 <table class=" tableau">
                     <thead>
                         <tr>
@@ -18,13 +20,13 @@
                     </thead>
                     
                     <tbody>
-                    {% for listaj in listaj %}
+                    {% for list in list %}
                         <tr>
-                            <td>{{listaj.Id}}</td>
-                            <td>{{listaj.Nom_produit}}</td>
-                            <td>{{listaj.Categorie}}</td>
-                            <td>{{listaj.PrixUnitaire}}</td>
-                            <td>{{listaj.Description}}</td>
+                            <td>{{list.Id}}</td>
+                            <td>{{list.Nom_produit}}</td>
+                            <td>{{list.Categorie}}</td>
+                            <td>{{list.PrixUnitaire}}</td>
+                            <td>{{list.Description}}</td>
                             <td class="editer">
                                 <div>
                                     <a href="/Modifier_produit/">Modifier</a>

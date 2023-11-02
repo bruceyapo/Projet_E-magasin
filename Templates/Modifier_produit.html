@@ -4,7 +4,8 @@
         <div id="container">
             <div class="container-ajouter">
                 <div><h3>Modifier un Produit</h3></div>
-                <form action="{{url_for('Succes_modif_prod')}}" method="post">
+                {% for list in list %}
+                <form action='{{url_for("Succes_modif_prod", _id = list.Id )}}' method="post">
                     
                     <div class="mb-3 row">
                         <label for="Name" class="col-sm-2 col-form-label">Nom :</label>
@@ -37,7 +38,9 @@
                         </div>
         
                     </div>
+                    
                 </form>
+                {%endfor%}
             </div>
         </div>
     </section>

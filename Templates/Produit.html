@@ -5,6 +5,7 @@
             <div class="container-magasin">
                 <div class="ajoute"><a href="/Ajout_produit/"><button type="button" class="btn btn-success btn-lg">Ajouter</button></a></div>
                 <div class="title4"><h4>Liste des Produit</h4></div>
+                
                 <table class=" tableau">
                     <thead>
                         <tr>
@@ -19,6 +20,7 @@
                     
                 <tbody>
                     {% for list in list %}
+                    
                         <tr>
                             <td>{{list.Id}}</td>
                             <td>{{list.Nom_produit}}</td>
