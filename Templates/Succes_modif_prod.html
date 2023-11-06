@@ -4,7 +4,8 @@
         <div id="container">
             <div class="container-magasin">
                 <div class="ajoute"><a href="/Ajout_produit/"><button type="button" class="btn btn-success btn-lg">Ajouter</button></a></div>
-                <div class="titre"><p>Le Produit numéro 5 a été modifié avec succès</p></div>
+                {% for list in list %}
+                <div class="titre"><p>Le Produit n°{{list.Id}} a été modifié avec succès</p></div>
                 <!-- <table class=" tableau">
                     <thead>
                         <tr>
@@ -137,7 +138,7 @@
                     </thead>
                     
                 <tbody>
-                    {% for list in list %}
+                    
                         <tr>
                             <td>{{list.Id}}</td>
                             <td>{{list.Nom_produit}}</td>
@@ -147,13 +148,14 @@
                             <td class="editer">
                                 <div>
                                     <a href="/Modifier_produit/{{list.Id}}">Modifier</a>
-                                    <a href="/Supprimer_produit/">Supprimer</a>
+                                    <a href="/Supprimer_produit/{{list.Id}}">Supprimer</a>
                                 </div>
                             </td>
                         </tr>
-                    {%endfor%}
+                    
                 </tbody>
                 </table>
+                {%endfor%}
             </div>
         </div>
 </section>      

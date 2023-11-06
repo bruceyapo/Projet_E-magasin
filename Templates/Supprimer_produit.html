@@ -5,18 +5,18 @@
         <div id="container">
             <div class="container-ajouter">
                 <div><h3>Suppression de Produit</h3></div>
-                <form action="/Succes_supp_prod/">
+                <form action="{{url_for('Succes_supp_prod', Id = _id)}}">
                     
-                
+                    {% for list in list %}
                         <p class="alert">
-                            Vous êtes sur le point de supprimer le magasin n°2. Êtes-vous
+                            Vous êtes sur le point de supprimer le magasin n° {{list.Id}}. Êtes-vous
                             sûr de vouloir continuer ?
                         </p>
-                
+                     {%endfor%}
                     <div class="mb-3 row justify-content-center align-items-center" style="width: 40%;">
                         <div class="col-sm-10 column justify-content-center align-items-center " style="width: 100%;">
                             <button type="reset" class="btn btn-danger button"><a href="/List_produit/">Retour</a></button>
-                            <a href=""> <button type="submit" class="btn btn-success"> Valider</button></a>
+                            <button type="submit" class="btn btn-success"> Valider</button>
                         </div>
         
                     </div>

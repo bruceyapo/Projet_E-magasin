@@ -100,50 +100,83 @@ def Succes_ajout_produit():
     return render_template("Succes_ajout_produit.html", list=list)
 
 #Route pour traiter le formulaire de Modification
-@app.route("/Modifier_produit/<int:_id>" , methods=['GET'])
-def Modifier_produit(_id):
-    # cursor = conn.cursor()
-    # cursor = conn.cursor()
+@app.route("/Modifier_produit/<int:Id>", methods=['GET', 'POST'])
+def Modifier_produit(Id):
+    _id = int(Id)
+    cursor = conn.cursor()
+    # Nom_produit = request.form["Nom_produit"]
+    # Categorie = request.form["Categorie"]
+    # PrixUnitaire = request.form["PrixUnitaire"]
+    # Description = request.form["Description"]
+    # # Traitement des données
+    # list= {
+    #     "Nom_produit": Nom_produit,
+    #     "Categorie": Categorie,
+    #     "PrixUnitaire": PrixUnitaire,
+    #     "Description": Description
+    # }
     cursor.execute( "SELECT * FROM Produit WHERE Id = ?", _id)
-    
     list = cursor.fetchall() 
+   
     conn.commit()  
-    return render_template("Modifier_produit.html", list=list)
+    return render_template("Modifier_produit.html", list=list, _id=_id)
     
     
-@app.route("/Succes_modif_prod/<int:_id>", methods=['POST'])
-def Succes_modif_prod(_id):
-    # id= int(list.Id)
-    # cursor = conn.cursor()
+@app.route("/Succes_modif_prod/<int:Id>", methods=['GET', 'POST'])
+def Succes_modif_prod(Id):
+    _id = int(Id)
     Nom_produit = request.form["Nom_produit"]
     Categorie = request.form["Categorie"]
     PrixUnitaire = request.form["PrixUnitaire"]
     Description = request.form["Description"]
     # Traitement des données
-    list= {
-        "Nom_produit": Nom_produit,
-        "Categorie": Categorie,
-        "PrixUnitaire": PrixUnitaire,
-        "Description": Description
-    }
-    cursor.execute("UPDATE Produit SET Nom_produit =?, Categorie =?, PrixUnitaire =?, Description =?, WHERE Id=? ", (list.Nom_produit, list.Categorie, list.PrixUnitaire, list.Description, _id))
+    # list= {
+    #     "Nom_produit": Nom_produit,
+    #     "Categorie": Categorie,
+    #     "PrixUnitaire": PrixUnitaire,
+    #     "Description": Description
+    # }
+    cursor = conn.cursor()
+    cursor.execute( 
+        "UPDATE Produit SET Nom_produit =?, Categorie =?, PrixUnitaire =?, Description =? WHERE Id=?",
+        (Nom_produit,Categorie,PrixUnitaire, Description, _id))
     conn.commit()
     # cursor.close()
-        # return redirect(url_for('Succes_modif_prod', list=list))
-    cursor = conn.cursor()
-    cursor.execute( "SELECT * FROM Produit WHERE Id = ?",_id)
+    return redirect(url_for('Produit', _id=_id))
+    # cursor = conn.cursor()
+    # cursor.execute( "SELECT * FROM Produit WHERE Id = ?",_id)
+    # list = cursor.fetchall()
+    # conn.commit()
+    # return render_template("Succes_modif_prod.html", list=list)
+
+
+@app.route("/Supprimer_produit/<int:Id>", methods=['GET', 'POST'])
+def Supprimer_produit(Id):
+    _id = int(Id)
+    cursor.execute( "SELECT * FROM Produit WHERE Id = ?", _id)
     list = cursor.fetchall()
     conn.commit()
-    return render_template("Succes_modif_prod.html", list=list)
+    return render_template("Supprimer_produit.html", list=list,  _id=_id)
 
-
-@app.route("/Supprimer_produit/")
-def Supprimer_produit():
-    return render_template("Supprimer_produit.html")
-
-@app.route("/Succes_supp_prod/")
-def Succes_supp_prod():
-    return render_template("Succes_supp_prod.html")
+@app.route("/Succes_supp_prod/<int:Id>", methods=['GET', 'POST'])
+def Succes_supp_prod(Id):
+    _id = int(Id)
+    # Nom_produit = request.form["Nom_produit"]
+    # Categorie = request.form["Categorie"]
+    # PrixUnitaire = request.form["PrixUnitaire"]
+    # Description = request.form["Description"]
+    # Traitement des données
+    # list= {
+    #     "Nom_produit": Nom_produit,
+    #     "Categorie": Categorie,
+    #     "PrixUnitaire": PrixUnitaire,
+    #     "Description": Description
+    # }
+    #cursor.execute("D Produit SET Nom_produit =?, Categorie =?, PrixUnitaire =?, Description =?, WHERE Id=? ", (list.Nom_produit, list.Categorie, list.PrixUnitaire, list.Description, _id))
+    cursor = conn.cursor()
+    cursor.execute(f"DELETE FROM Produit WHERE id = ?", (_id,))
+    conn.commit()
+    return redirect(url_for('Produit', _id=_id))
 
 if __name__ == "__main__":
     app.run(debug=True)
